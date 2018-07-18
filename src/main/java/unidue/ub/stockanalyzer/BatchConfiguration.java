@@ -1,4 +1,4 @@
-package unidue.ub.counterretrieval;
+package unidue.ub.stockanalyzer;
 
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
@@ -7,12 +7,22 @@ import org.springframework.batch.support.transaction.ResourcelessTransactionMana
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
+import unidue.ub.stockanalyzer.model.settings.Alertcontrol;
+import unidue.ub.stockanalyzer.model.settings.ItemGroup;
+import unidue.ub.stockanalyzer.model.settings.Stockcontrol;
+import unidue.ub.stockanalyzer.model.settings.UserGroup;
 
 @Configuration
-public class BatchConfiguration {
+public class BatchConfiguration extends RepositoryRestConfigurerAdapter {
 
+    @Override
+    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
+        config.exposeIdsFor(Alertcontrol.class, Stockcontrol.class, ItemGroup.class, UserGroup.class);
+    }
     @Bean
     public TaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
