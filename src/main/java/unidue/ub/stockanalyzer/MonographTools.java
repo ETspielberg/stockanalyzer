@@ -4,10 +4,13 @@ import unidue.ub.media.monographs.BibliographicInformation;
 import unidue.ub.media.monographs.Event;
 import unidue.ub.media.monographs.Item;
 import unidue.ub.media.monographs.Manifestation;
+import unidue.ub.stockanalyzer.eventanalyzer.ItemFilter;
 import unidue.ub.stockanalyzer.model.data.CaldRequest;
 import unidue.ub.stockanalyzer.model.data.Nrequests;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MonographTools {
 
@@ -66,5 +69,20 @@ public class MonographTools {
             }
         }
         return caldRequest;
+    }
+
+    public static List<Event> getFilteredEvents(List<Item> items, ItemFilter itemFilter) {
+        List<Event> events = new ArrayList<>();
+        for (Item item : items) {
+            if (itemFilter.matches(item)) {
+                List<Event> itemEvents = item.getEvents();
+                for (Event event : itemEvents) {
+                    events.add(event);
+                    if (event.getEndEvent() != null)
+                        events.add(event.getEndEvent());
+                }
+            }
+        }
+        return events;
     }
 }

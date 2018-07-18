@@ -8,25 +8,27 @@ import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import unidue.ub.media.blacklist.Ignored;
 import unidue.ub.media.monographs.Event;
 import unidue.ub.media.monographs.Expression;
-import unidue.ub.media.monographs.Item;
+import unidue.ub.stockanalyzer.clients.IgnoredGetterClient;
 import unidue.ub.stockanalyzer.model.data.Eventanalysis;
 import unidue.ub.stockanalyzer.model.settings.Stockcontrol;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static unidue.ub.stockanalyzer.MonographTools.getFilteredEvents;
 
 @StepScope
 public class ExpressionProcessor implements ItemProcessor<Expression, Eventanalysis> {
 
     private static final Logger log = LoggerFactory.getLogger(ExpressionProcessor.class);
+
+    @Autowired
+    private IgnoredGetterClient ignoredGetterClient;
 
     private Stockcontrol stockcontrol;
 
@@ -34,25 +36,26 @@ public class ExpressionProcessor implements ItemProcessor<Expression, Eventanaly
     }
 
     @Override
-    public Eventanalysis process(final Expression expression) throws Exception {
+    public Eventanalysis process(final Expression expression) {
         log.info("analyzing expression  " + expression.getShelfmarkBase() + " and shelfmark " + expression.getShelfmarkBase());
-
-        try {
-            ResponseEntity<Ignored> response = new RestTemplate().getForEntity(
-                    "http://localhost:8082/api/settings/stockcontrol/" + expression.getShelfmarkBase(),
-                    Ignored.class,
-                    0);
-            if (response.getStatusCode().value() == 200) {
-                Ignored ignored = response.getBody();
-                if (ignored.getExpire().after(new Date()) && ignored.getType().equals("eventanalysis")) {
-                    log.info("expression blacklisted");
+        List<Ignored> ignoreds = new ArrayList<>(ignoredGetterClient.getIgnoredForTittleId(expression.getShelfmarkBase()));
+        if (ignoreds.size() != 0) {
+            for (Ignored ignored : ignoreds) {
+                if (ignored.getExpire().after(new Date()) && ignored.getType().equals("eventanalysis"))
                     return null;
-                }
             }
-            return calculateAnalysis(expression, stockcontrol);
-        } catch (HttpClientErrorException hcee) {
-            return calculateAnalysis(expression, stockcontrol);
         }
+        return calculateAnalysis(expression, stockcontrol);
+    }
+
+    private Eventanalysis calculateAnalysis(Expression expression, Stockcontrol stockcontrol) {
+        ItemFilter itemFilter = new ItemFilter(stockcontrol.getCollections(), stockcontrol.getMaterials());
+        List<Event> events = getFilteredEvents(expression.getItems(),itemFilter);
+        Eventanalysis analysis = new EventAnalyzer().analyze(events, stockcontrol);
+        analysis.setTitleId(expression.getShelfmarkBase());
+        analysis.setShelfmark(expression.getShelfmarkBase());
+        analysis.setMab(expression.getBibliographicInformation().toString());
+        return analysis;
     }
 
     @BeforeStep
@@ -61,25 +64,5 @@ public class ExpressionProcessor implements ItemProcessor<Expression, Eventanaly
         ExecutionContext jobContext = jobExecution.getExecutionContext();
         this.stockcontrol = (Stockcontrol) jobContext.get("stockcontrol");
         log.info("retrieved stockcontrol " + stockcontrol.toString() + " from execution context by expression processor");
-    }
-
-    private Eventanalysis calculateAnalysis(Expression expression, Stockcontrol stockcontrol) throws URISyntaxException {
-        List<Event> events = new ArrayList<>();
-        ItemFilter itemFilter = new ItemFilter(stockcontrol.getCollections(), stockcontrol.getMaterials());
-        for (Item item : expression.getItems()) {
-            if (itemFilter.matches(item)) {
-                List<Event> itemEvents = item.getEvents();
-                for (Event event : itemEvents) {
-                    events.add(event);
-                    if (event.getEndEvent() != null)
-                        events.add(event.getEndEvent());
-                }
-            }
-        }
-        Eventanalysis analysis = new EventAnalyzer().analyze(events, stockcontrol);
-        analysis.setTitleId(expression.getShelfmarkBase());
-        analysis.setShelfmark(expression.getShelfmarkBase());
-        analysis.setMab(expression.getBibliographicInformation().toString());
-        return analysis;
     }
 }
