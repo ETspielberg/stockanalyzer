@@ -16,5 +16,5 @@ import java.util.List;
 public interface AlertcontrolRepository extends PagingAndSortingRepository<Alertcontrol,String> {
 
     @Query(value = "select s.* from profile s,profiles_per_user ppu where s.identifier = ppu.identifier and ppu.username = :username and dtype='Alertcontrol'",nativeQuery = true)
-    public List<Alertcontrol> findByUsername(@Param("username") String username);
+    List<Alertcontrol> findByUsername(@Param("username") String username);
 }

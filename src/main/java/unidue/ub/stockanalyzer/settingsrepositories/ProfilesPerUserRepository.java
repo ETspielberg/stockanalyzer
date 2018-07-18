@@ -13,7 +13,7 @@ import java.util.List;
 @RepositoryRestResource(collectionResourceRel = "profilesperuser", path = "profilesperuser")
 public interface ProfilesPerUserRepository extends PagingAndSortingRepository<ProfilesPerUser,Long> {
 
-    public List<ProfilesPerUser> findByUsername(@Param("username") String username);
+    List<ProfilesPerUser> findByUsername(@Param("username") String username);
 
-    public List<ProfilesPerUser> findByIdentifier(@Param("identifier") String identifier);
+    List<ProfilesPerUser> findByIdentifier(@Param("identifier") String identifier);
 }

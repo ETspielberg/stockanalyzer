@@ -15,5 +15,5 @@ import java.util.List;
 public interface StockcontrolRepository extends PagingAndSortingRepository<Stockcontrol, String> {
 
     @Query(value = "select s.* from profile s,profiles_per_user ppu where s.identifier = ppu.identifier and ppu.username = :username and dtype='Stockcontrol'",nativeQuery = true)
-    public List<Stockcontrol> findByUsername(@Param("username") String username);
+    List<Stockcontrol> findByUsername(@Param("username") String username);
 }

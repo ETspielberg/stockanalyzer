@@ -6,8 +6,6 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import unidue.ub.media.analysis.EbookCounter;
-import unidue.ub.media.analysis.JournalCounter;
 import unidue.ub.stockanalyzer.datarepositories.CaldRequestRepository;
 import unidue.ub.stockanalyzer.datarepositories.EventanalysisRepository;
 import unidue.ub.stockanalyzer.datarepositories.NrequestsRepository;

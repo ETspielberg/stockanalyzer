@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import unidue.ub.stockanalyzer.model.settings.Alertcontrol;
@@ -65,10 +66,15 @@ public class JobLauncherController {
         return ResponseEntity.ok(stockcontrols);
     }
 
-    @GetMapping("/alertcontrol/all")
-    public ResponseEntity<List<Alertcontrol>> getAllAlertcontrol() {
-        List<Alertcontrol> alertcontrols = new ArrayList<>();
-        alertcontrolRepository.findAll().forEach(alertcontrols::add);
+    @GetMapping("/stockcontrol/peruser/{username}")
+    public ResponseEntity<List<Stockcontrol>> getAllStockcontrol(@PathVariable String username) {
+        List<Stockcontrol> stockcontrols = new ArrayList<>(stockcontrolRepository.findByUsername(username));
+        return ResponseEntity.ok(stockcontrols);
+    }
+
+    @GetMapping("/alertcontrol/peruser/{username}")
+    public ResponseEntity<List<Alertcontrol>> getAllAlertcontrol(@PathVariable String username) {
+        List<Alertcontrol> alertcontrols = new ArrayList<>(alertcontrolRepository.findByUsername(username));
         return ResponseEntity.ok(alertcontrols);
     }
 
