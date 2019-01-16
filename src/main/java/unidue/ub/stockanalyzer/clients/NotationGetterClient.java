@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import unidue.ub.settings.fachref.Notation;
+import unidue.ub.stockanalyzer.model.settings.Notation;
 
 @FeignClient("settings-backend")
 @Component
