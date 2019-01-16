@@ -15,7 +15,7 @@ server:
 spring:
   batch:
     job:
-      enabled: true
+      enabled: false
     initialize-schema: always
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
