@@ -10,9 +10,10 @@ import unidue.ub.stockanalyzer.model.data.Nrequests;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
-public class MonographTools {
+public class MonographUtils {
 
     private final static long daysInMillis = 1000L * 60L * 60L * 24L;
 
@@ -84,5 +85,25 @@ public class MonographTools {
             }
         }
         return events;
+    }
+
+    public static String getActiveCollectionOverview(List<Item> items) {
+        HashMap<String, Integer> numberOfItems = new HashMap<>();
+        for (Item item : items) {
+            if (item.getDeletionDate() != null) {
+                if (numberOfItems.containsKey(item.getCollection())) {
+                    Integer count = numberOfItems.get(item.getCollection());
+                    count = count + 1;
+                    numberOfItems.put(item.getCollection(), count);
+                } else {
+                    numberOfItems.put(item.getCollection(), 1);
+                }
+            }
+        }
+        StringBuilder collections = new StringBuilder();
+        numberOfItems.forEach(
+                (String key, Integer value) -> collections.append(String.valueOf(value)).append("* ").append(key).append(", ")
+        );
+        return org.apache.commons.lang3.StringUtils.removeEnd(collections.toString().trim(),",");
     }
 }

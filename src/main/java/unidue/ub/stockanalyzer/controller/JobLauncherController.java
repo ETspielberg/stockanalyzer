@@ -1,4 +1,4 @@
-package unidue.ub.stockanalyzer;
+package unidue.ub.stockanalyzer.controller;
 
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -6,23 +6,26 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import unidue.ub.stockanalyzer.datarepositories.EventanalysisRepository;
+import unidue.ub.stockanalyzer.datarepositories.NrequestsRepository;
+import unidue.ub.stockanalyzer.model.data.Nrequests;
 import unidue.ub.stockanalyzer.model.settings.Alertcontrol;
 import unidue.ub.stockanalyzer.model.settings.Stockcontrol;
 import unidue.ub.stockanalyzer.settingsrepositories.AlertcontrolRepository;
 import unidue.ub.stockanalyzer.settingsrepositories.StockcontrolRepository;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 @Controller
 @EnableScheduling
@@ -32,20 +35,24 @@ public class JobLauncherController {
 
     private final static long HalfAYear = 182L * dayInMillis;
 
-    @Autowired
+    private final
     JobLauncher jobLauncher;
 
-    @Autowired
+    private final
     Job eventanalyzerJob;
 
-    @Autowired
+    private final
     Job nrequestsJob;
 
-    @Autowired
-    private StockcontrolRepository stockcontrolRepository;
+    private final StockcontrolRepository stockcontrolRepository;
 
     @Autowired
-    private AlertcontrolRepository alertcontrolRepository;
+    public JobLauncherController(JobLauncher jobLauncher, Job eventanalyzerJob, Job nrequestsJob, StockcontrolRepository stockcontrolRepository) {
+        this.jobLauncher = jobLauncher;
+        this.eventanalyzerJob = eventanalyzerJob;
+        this.nrequestsJob = nrequestsJob;
+        this.stockcontrolRepository = stockcontrolRepository;
+    }
 
     @RequestMapping("/eventanalyzer")
     public ResponseEntity<?> runEventanalzer(String identifier) throws Exception {
@@ -56,27 +63,7 @@ public class JobLauncherController {
         return ResponseEntity.status(HttpStatus.FOUND).build();
     }
 
-    /*
-    avoid annoyance with HATEOAS spring implementation
-     */
-    @GetMapping("/stockcontrol/all")
-    public ResponseEntity<List<Stockcontrol>> getAllStockcontrol() {
-        List<Stockcontrol> stockcontrols = new ArrayList<>();
-        stockcontrolRepository.findAll().forEach(stockcontrols::add);
-        return ResponseEntity.ok(stockcontrols);
-    }
 
-    @GetMapping("/stockcontrol/peruser/{username}")
-    public ResponseEntity<List<Stockcontrol>> getAllStockcontrol(@PathVariable String username) {
-        List<Stockcontrol> stockcontrols = new ArrayList<>(stockcontrolRepository.findByUsername(username));
-        return ResponseEntity.ok(stockcontrols);
-    }
-
-    @GetMapping("/alertcontrol/peruser/{username}")
-    public ResponseEntity<List<Alertcontrol>> getAllAlertcontrol(@PathVariable String username) {
-        List<Alertcontrol> alertcontrols = new ArrayList<>(alertcontrolRepository.findByUsername(username));
-        return ResponseEntity.ok(alertcontrols);
-    }
 
     @Scheduled(cron="0 0 2 * * *")
     @RequestMapping("/nrequests")

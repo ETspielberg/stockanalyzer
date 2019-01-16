@@ -23,6 +23,7 @@ public class Eventanalysis {
 	@Id
 	private String identifier;
 
+	@Column(name="title_id")
 	private String titleId;
 
 	@JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss")
@@ -30,26 +31,34 @@ public class Eventanalysis {
 
 	private String collection;
 
+	@Column(name="system_code")
 	private String systemCode;
 
 	private String materials;
 
+	@Column(name="stockcontrol_id")
 	private String stockcontrolId;
 
 	private String shelfmark;
 
+	@Column(name="mean_relative_loan")
 	private double meanRelativeLoan;
 
+	@Column(name="max_relative_loan")
 	private double maxRelativeLoan;
 
 	private double slope;
 
+	@Column(name="last_stock")
 	private long lastStock;
 
+	@Column(name="last_stock_lendable")
 	private long lastStockLendable;
 
+	@Column(name="max_loans_abs")
 	private long maxLoansAbs;
-	
+
+	@Column(name="proposed_deletion")
 	private long proposedDeletion;
 
 	@Column(columnDefinition = "TEXT")
@@ -57,14 +66,19 @@ public class Eventanalysis {
 	
 	private String status;
 
+	@Column(name="max_number_request")
 	private long maxNumberRequest;
-	
+
+	@Column(name="max_items_needed")
 	private long maxItemsNeeded;
-	
+
+	@Column(name="days_requested")
 	private long daysRequested;
-	
+
+	@Column(name="number_requests")
 	private long numberRequests;
-	
+
+	@Column(name="proposed_purchase")
 	private long proposedPurchase;
 
 	private long calds;
@@ -406,7 +420,7 @@ public class Eventanalysis {
 	}
 
 	/**
-	 * increases the number of requests
+	 * increases the number of nrequests
 	 * 
 	 */
 	public void increaseNumberRequests() {
@@ -425,22 +439,22 @@ public class Eventanalysis {
 	}
 
 	/**
-	 * retrieves the maximum number of items needed (stock and requests)
+	 * retrieves the maximum number of items needed (stock and nrequests)
 	 * throughout the period of analysis
 	 * 
 	 * @return maxItemsNeeded maximum number of items needed (stock and
-	 *         requests)
+	 *         nrequests)
 	 */
 	public long getMaxItemsNeeded() {
 		return maxItemsNeeded;
 	}
 
 	/**
-	 * set the maximum number of items needed (stock and requests) throughout
+	 * set the maximum number of items needed (stock and nrequests) throughout
 	 * the period of analysis
 	 * 
 	 * @param maxItemsNeeded
-	 *            maximum number of items needed (stock and requests)
+	 *            maximum number of items needed (stock and nrequests)
 	 */
 	public void setMaxItemsNeeded(long maxItemsNeeded) {
 		this.maxItemsNeeded = maxItemsNeeded;
@@ -466,19 +480,19 @@ public class Eventanalysis {
 	}
 
 	/**
-	 * retrieves the number of requests throughout the period of analysis
+	 * retrieves the number of nrequests throughout the period of analysis
 	 * 
-	 * @return numberRequests number of requests
+	 * @return numberRequests number of nrequests
 	 */
 	public long getNumberRequests() {
 		return numberRequests;
 	}
 
 	/**
-	 * set the number of requests throughout the period of analysis
+	 * set the number of nrequests throughout the period of analysis
 	 * 
 	 * @param numberRequests
-	 *            number of requests
+	 *            number of nrequests
 	 */
 	public void setNumberRequests(long numberRequests) {
 		this.numberRequests = numberRequests;

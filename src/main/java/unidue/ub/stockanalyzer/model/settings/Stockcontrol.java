@@ -2,6 +2,7 @@ package unidue.ub.stockanalyzer.model.settings;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
@@ -13,32 +14,44 @@ public class Stockcontrol extends Profile {
 
     private String description = "";
 
+    @Column(name="subjectid")
     private String subjectID ="";
 
+    @Column(name="system_code")
     private String systemCode="";
 
     private String collections="";
 
     private String materials="";
 
+    @Column(name="years_to_average")
     private int yearsToAverage=0;
 
+    @Column(name="minimum_years")
     private int minimumYears=0;
 
+    @Column(name="static_buffer")
     private double staticBuffer=0.0;
 
+    @Column(name="variable_buffer")
     private double variableBuffer=0.0;
 
+    @Column(name="deletion_mail_bcc")
     private String deletionMailBcc="";
 
+    @Column(name="years_of_requests")
     private int yearsOfRequests=0;
 
+    @Column(name="minimum_days_of_request")
     private int minimumDaysOfRequest=0;
 
+    @Column(name="blacklist_expire")
     private double blacklistExpire=0.0;
 
+    @Column(name="grouped_analysis")
     private boolean groupedAnalysis=false;
-    
+
+    @Column(name="persist_empty_analysis")
     private boolean persistEmptyAnalysis=false;
 
     public String getDescription() {

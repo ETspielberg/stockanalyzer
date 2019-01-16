@@ -38,12 +38,7 @@ public class SettingsDatabaseConfiguration {
     ) {
         return builder
                 .dataSource(dataSource)
-                .packages("unidue.ub.counterretrieval.model.settings")
-                .persistenceUnit("alertcontrol")
-                .persistenceUnit("itemgroup")
-                .persistenceUnit("usergroup")
-                .persistenceUnit("stockcontrol")
-                .persistenceUnit("profielsperuser")
+                .packages("unidue.ub.stockanalyzer.model.settings")
                 .build();
     }
 

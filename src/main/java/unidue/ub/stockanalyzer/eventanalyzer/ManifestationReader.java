@@ -1,5 +1,7 @@
 package unidue.ub.stockanalyzer.eventanalyzer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
@@ -35,6 +37,8 @@ public class ManifestationReader implements ItemReader<Manifestation> {
         nextManifestationIndex = 0;
     }
 
+    private Logger log = LoggerFactory.getLogger(ManifestationReader.class);
+
     @Override
     public Manifestation read() {
         if (noManifestationsFound()) {
@@ -53,20 +57,23 @@ public class ManifestationReader implements ItemReader<Manifestation> {
         List<String> notations = new ArrayList<>();
         String[] notationGroupStrings;
         if (stockcontrol.getSystemCode().isEmpty()) {
-            notationGetterClient.getNotationListForNotationgroup(stockcontrol.getIdentifier()).forEach(entry -> notations.add(entry.getNotation()));
+            notationGetterClient.getNotationListForNotationgroup(stockcontrol.getSubjectID()).forEach(entry -> notations.add(entry.getNotation()));
+            for (String notation : notations) {
+                log.info("found notation " + notation);
+            }
         } else {
             if (stockcontrol.getSystemCode().contains(",")) {
                 notationGroupStrings = stockcontrol.getSystemCode().split(",");
             } else {
-                notationGroupStrings = new String[]{stockcontrol.getSystemCode()};
+                notationGroupStrings = new String[]{stockcontrol.getSystemCode().trim()};
             }
             for (String notationGroupString : notationGroupStrings) {
                 if (notationGroupString.contains("-")) {
-                    String startNotation = notationGroupString.substring(0, notationGroupString.indexOf("-"));
-                    String endNotation = notationGroupString.substring(notationGroupString.indexOf("-") + 1, notationGroupString.length());
+                    String startNotation = notationGroupString.substring(0, notationGroupString.indexOf("-")).trim();
+                    String endNotation = notationGroupString.substring(notationGroupString.indexOf("-") + 1, notationGroupString.length()).trim();
                     notationGetterClient.getNotationList(startNotation,endNotation).forEach(entry -> notations.add(entry.getNotation()));
                 } else {
-                    notations.add(notationGroupString);
+                    notations.add(notationGroupString.trim());
                 }
             }
         }

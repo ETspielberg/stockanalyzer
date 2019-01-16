@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Plain old java object holding the entrie of the requests hitlist.
+ * Plain old java object holding the entrie of the nrequests hitlist.
  *
  * @author Eike Spielberg
  * @version 1
@@ -27,6 +27,7 @@ public class Nrequests implements Cloneable {
     @Id
     private String identifier;
 
+    @Column(name="title_id")
     private String titleId;
 
     private String isbn;
@@ -35,14 +36,19 @@ public class Nrequests implements Cloneable {
 
     private double ratio;
 
+    @Column(name="nrequests")
     public int NRequests;
 
+    @Column(name="nitems")
     public int NItems;
 
+    @Column(name="nloans")
     public int NLoans;
 
+    @Column(name="nlendable")
     public int NLendable;
 
+    @Column(name="total_duration")
     public long totalDuration;
 
     public String status;
@@ -71,6 +77,7 @@ public class Nrequests implements Cloneable {
         status = "NEW";
         isbn = "";
     }
+
 
     public Nrequests(String titleId, String shelfmark, double ratio, int NItems, int NLendable, int NRequests, int NLoans) {
         this.titleId = titleId;
@@ -134,7 +141,7 @@ public class Nrequests implements Cloneable {
     }
 
     /**
-     * returns the duration of requests
+     * returns the duration of nrequests
      *
      * @return the duration
      */
@@ -215,7 +222,7 @@ public class Nrequests implements Cloneable {
     }
 
     /**
-     * returns the number of requests
+     * returns the number of nrequests
      *
      * @return the nRequests
      */
@@ -224,7 +231,7 @@ public class Nrequests implements Cloneable {
     }
 
     /**
-     * sets the number of requests
+     * sets the number of nrequests
      *
      * @param nRequests the nRequests to set
      */

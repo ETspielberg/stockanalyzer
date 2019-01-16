@@ -13,7 +13,6 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
 import unidue.ub.media.monographs.Expression;
 import unidue.ub.media.monographs.Manifestation;
 import unidue.ub.stockanalyzer.DataWriter;
@@ -25,25 +24,14 @@ import unidue.ub.stockanalyzer.model.settings.Status;
 @EnableBatchProcessing
 public class EventanalyzerConfiguration {
 
-    @Autowired
-    public JobBuilderFactory jobBuilderFactory;
+    private final JobBuilderFactory jobBuilderFactory;
+
+    private final StepBuilderFactory stepBuilderFactory;
 
     @Autowired
-    public StepBuilderFactory stepBuilderFactory;
-
-    @Bean
-    public RestTemplate notationTemplate() {
-        return new RestTemplate();
-    }
-
-    @Bean
-    public RestTemplate stockcontrolTemplate() {
-        return new RestTemplate();
-    }
-
-    @Bean
-    public RestTemplate getterTemplate() {
-        return new RestTemplate();
+    public EventanalyzerConfiguration(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
+        this.jobBuilderFactory = jobBuilderFactory;
+        this.stepBuilderFactory = stepBuilderFactory;
     }
 
     @Bean

@@ -1,11 +1,12 @@
 package unidue.ub.stockanalyzer.eventanalyzer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.beans.factory.annotation.Autowired;
 import unidue.ub.media.monographs.Expression;
 import unidue.ub.media.monographs.Manifestation;
 import unidue.ub.stockanalyzer.model.settings.Stockcontrol;
@@ -23,6 +24,8 @@ public class ExpressionReader implements ItemReader<Expression> {
     private ManifestationReader manifestationReader;
 
     private Stockcontrol stockcontrol;
+
+    private Logger log = LoggerFactory.getLogger(ExpressionReader.class);
 
     ExpressionReader() {
         noExpressionsFound = true;

@@ -5,19 +5,23 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="user_group")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserGroup {
 
     @Id
     private String name;
 
+    @Column(name="user_categories")
     private String[] userCategories;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(name="relevant_for_analysis")
     private boolean relevantForAnalysis;
 
     public String getName() {

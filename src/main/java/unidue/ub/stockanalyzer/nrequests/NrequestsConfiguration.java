@@ -1,4 +1,4 @@
-package unidue.ub.stockanalyzer.requests;
+package unidue.ub.stockanalyzer.nrequests;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;

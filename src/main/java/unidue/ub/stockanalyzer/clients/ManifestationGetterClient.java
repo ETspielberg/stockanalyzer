@@ -9,20 +9,20 @@ import unidue.ub.media.monographs.Manifestation;
 
 import java.util.List;
 
-@FeignClient("manifest-getter")
+@FeignClient("getter")
 @Component
 public interface ManifestationGetterClient {
-    @RequestMapping(method= RequestMethod.GET, value="manifestations/manifestations")
+    @RequestMapping(method= RequestMethod.GET, value="/manifestations")
     List<Manifestation> getManifestations(@RequestParam("identifier") String identifier, @RequestParam("exact") String exact,
                                           @RequestParam("mode") String mode);
 
-    @RequestMapping(method= RequestMethod.GET, value="manifestations/fullManifestation")
+    @RequestMapping(method= RequestMethod.GET, value="/fullManifestation")
     Manifestation getFullManifestation(@RequestParam("identifier") String identifier,
                                        @RequestParam("exact") String exact);
 
-    @RequestMapping(method= RequestMethod.GET, value="manifestations/buildFullManifestation")
+    @RequestMapping(method= RequestMethod.GET, value="/buildFullManifestation")
     Manifestation buildFullManifestation(@RequestParam("identifier") String identifier);
 
-    @RequestMapping(method= RequestMethod.GET, value="manifestations/buildActiveManifestation")
+    @RequestMapping(method= RequestMethod.GET, value="/buildActiveManifestation")
     Manifestation buildActiveManifestation(@RequestParam("identifier") String identifier);
 }

@@ -39,10 +39,7 @@ public class DataDatabaseConfiguration {
         return
                 builder
                         .dataSource(dataSource)
-                        .packages("unidue.ub.counterretrieval.model.data")
-                        .persistenceUnit("caldrequest")
-                        .persistenceUnit("eventanalysis")
-                        .persistenceUnit("nrequests")
+                        .packages("unidue.ub.stockanalyzer.model.data")
                         .build();
     }
 

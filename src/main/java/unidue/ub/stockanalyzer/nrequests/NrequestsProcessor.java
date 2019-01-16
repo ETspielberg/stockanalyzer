@@ -1,4 +1,4 @@
-package unidue.ub.stockanalyzer.requests;
+package unidue.ub.stockanalyzer.nrequests;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +7,7 @@ import unidue.ub.stockanalyzer.model.data.Nrequests;
 import unidue.ub.stockanalyzer.model.settings.ItemGroup;
 import unidue.ub.stockanalyzer.settingsrepositories.ItemGroupRepository;
 
-import static unidue.ub.stockanalyzer.MonographTools.getNrequestsFor;
+import static unidue.ub.stockanalyzer.MonographUtils.getNrequestsFor;
 
 
 public class NrequestsProcessor implements ItemProcessor<Manifestation, Nrequests> {

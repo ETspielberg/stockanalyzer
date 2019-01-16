@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static unidue.ub.stockanalyzer.MonographTools.getFilteredEvents;
+import static unidue.ub.stockanalyzer.MonographUtils.getActiveCollectionOverview;
+import static unidue.ub.stockanalyzer.MonographUtils.getFilteredEvents;
 
 @StepScope
 public class ExpressionProcessor implements ItemProcessor<Expression, Eventanalysis> {
@@ -38,7 +39,8 @@ public class ExpressionProcessor implements ItemProcessor<Expression, Eventanaly
     @Override
     public Eventanalysis process(final Expression expression) {
         log.info("analyzing expression  " + expression.getShelfmarkBase() + " and shelfmark " + expression.getShelfmarkBase());
-        List<Ignored> ignoreds = new ArrayList<>(ignoredGetterClient.getIgnoredForTittleId(expression.getShelfmarkBase()));
+        List<Ignored> ignoreds = new ArrayList<>();
+        ignoredGetterClient.getIgnoredForTittleId(expression.getShelfmarkBase()).forEach(ignoreds::add);
         if (ignoreds.size() != 0) {
             for (Ignored ignored : ignoreds) {
                 if (ignored.getExpire().after(new Date()) && ignored.getType().equals("eventanalysis"))
@@ -55,6 +57,7 @@ public class ExpressionProcessor implements ItemProcessor<Expression, Eventanaly
         analysis.setTitleId(expression.getShelfmarkBase());
         analysis.setShelfmark(expression.getShelfmarkBase());
         analysis.setMab(expression.getBibliographicInformation().toString());
+        analysis.setComment(getActiveCollectionOverview(expression.getItems()));
         return analysis;
     }
 

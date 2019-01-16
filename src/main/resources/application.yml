@@ -1,0 +1,27 @@
+feign:
+  client:
+    config:
+      settings-backend:
+        connectTimeout: 5000
+        readTimeout: 5000
+      blacklist-backend:
+        connectTimeout: 5000
+        readTimeout: 5000
+      getter:
+        connectTimeout: 600000
+        readTimeout: 600000
+server:
+  port: ${server_port:11888}
+spring:
+  batch:
+    job:
+      enabled: true
+    initialize-schema: always
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+    hibernate:
+        ddl-auto: update

@@ -14,10 +14,13 @@ public class Alertcontrol extends Profile{
 
     private String notationgroup;
 
+    @Column(name="threshold_ratio")
     private double thresholdRatio;
 
+    @Column(name="threshold_requests")
     private int thresholdRequests;
 
+    @Column(name="threshold_duration")
     private int thresholdDuration;
 
     private long timeperiod;

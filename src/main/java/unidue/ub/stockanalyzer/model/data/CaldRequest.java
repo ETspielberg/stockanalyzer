@@ -3,9 +3,11 @@ package unidue.ub.stockanalyzer.model.data;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
 
+@Entity
 public class CaldRequest {
 
     @Column(columnDefinition = "TEXT")
@@ -33,6 +35,10 @@ public class CaldRequest {
     private boolean isCald;
 
     public String status;
+
+    public void setCald(boolean cald) {
+        isCald = cald;
+    }
 
     public CaldRequest() {
         mab = "";
@@ -134,10 +140,6 @@ public class CaldRequest {
 
     public boolean isCald() {
         return isCald;
-    }
-
-    public void setIsCald(boolean isCald) {
-        this.isCald = isCald;
     }
 
     public String getStatus() {

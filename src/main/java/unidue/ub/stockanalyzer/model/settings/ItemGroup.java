@@ -14,11 +14,13 @@ public class ItemGroup {
     @Column(unique = true)
     private String name;
 
+    @Column(name="item_categories")
     private String[] itemCategories;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(name="relevant_for_analysis")
     private boolean relevantForAnalysis;
 
     public String getName() {

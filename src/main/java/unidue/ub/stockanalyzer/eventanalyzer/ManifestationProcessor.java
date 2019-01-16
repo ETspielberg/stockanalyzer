@@ -10,7 +10,6 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import unidue.ub.media.blacklist.Ignored;
 import unidue.ub.media.monographs.Event;
-import unidue.ub.media.monographs.Item;
 import unidue.ub.media.monographs.Manifestation;
 import unidue.ub.stockanalyzer.clients.IgnoredGetterClient;
 import unidue.ub.stockanalyzer.model.data.Eventanalysis;
@@ -20,7 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static unidue.ub.stockanalyzer.MonographTools.getFilteredEvents;
+import static unidue.ub.stockanalyzer.MonographUtils.getFilteredEvents;
+import static unidue.ub.stockanalyzer.MonographUtils.getActiveCollectionOverview;
 
 public class ManifestationProcessor implements ItemProcessor<Manifestation, Eventanalysis> {
 
@@ -37,7 +37,8 @@ public class ManifestationProcessor implements ItemProcessor<Manifestation, Even
     @Override
     public Eventanalysis process(final Manifestation manifestation) {
         log.info("analyzing manifestation " + manifestation.getTitleID() + " and shelfmark " + manifestation.getShelfmark());
-        List<Ignored> ignoreds = new ArrayList<>(ignoredGetterClient.getIgnoredForTittleId(manifestation.getTitleID()));
+        List<Ignored> ignoreds = new ArrayList<>();
+        ignoredGetterClient.getIgnoredForTittleId(manifestation.getTitleID()).forEach(ignoreds::add);
         if (ignoreds.size() != 0) {
             for (Ignored ignored : ignoreds) {
                 if (ignored.getExpire().after(new Date()) && ignored.getType().equals("eventanalysis"))
@@ -62,6 +63,7 @@ public class ManifestationProcessor implements ItemProcessor<Manifestation, Even
         analysis.setTitleId(manifestation.getTitleID());
         analysis.setShelfmark(manifestation.getShelfmark());
         analysis.setMab(manifestation.getBibliographicInformation().getFullDescription());
+        analysis.setComment(getActiveCollectionOverview(manifestation.getItems()));
         return analysis;
     }
     }
