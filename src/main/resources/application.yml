@@ -17,6 +17,7 @@ spring:
     job:
       enabled: true
     initialize-schema: always
+    table-prefix: stockanalyzer_
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
