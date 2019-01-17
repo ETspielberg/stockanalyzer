@@ -1,11 +1,12 @@
 package unidue.ub.stockanalyzer.model.settings;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
-public abstract class Profile {
+public abstract class Profile implements Serializable {
 
     @Id
     @Column(unique=true)
