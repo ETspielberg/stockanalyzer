@@ -12,7 +12,7 @@ import unidue.ub.media.blacklist.Ignored;
 @Component
 public interface IgnoredGetterClient {
 
-    @RequestMapping(method= RequestMethod.GET, value="search/findAllByTitleId")
+    @RequestMapping(method= RequestMethod.GET, value="/getIgnoredFor/{identifier}")
     Resources<Ignored> getIgnoredForTittleId(String titleId);
 
 }
