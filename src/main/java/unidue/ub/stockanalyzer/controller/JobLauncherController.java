@@ -54,8 +54,8 @@ public class JobLauncherController {
         this.stockcontrolRepository = stockcontrolRepository;
     }
 
-    @RequestMapping("/eventanalyzer")
-    public ResponseEntity<?> runEventanalzer(String identifier) throws Exception {
+    @RequestMapping("/eventanalyzer/{identifier}")
+    public ResponseEntity<?> runEventanalzer(@PathVariable String identifier) throws Exception {
         JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
         jobParametersBuilder.addString("stockcontrol.identifier", identifier).addLong("time",System.currentTimeMillis()).toJobParameters();
         JobParameters jobParameters = jobParametersBuilder.toJobParameters();

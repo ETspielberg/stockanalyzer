@@ -3,11 +3,13 @@ package unidue.ub.stockanalyzer.model.settings;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Created by Eike on 05.07.2017.
  */
 @Entity
+@Table(name="profiles_per_user")
 public class ProfilesPerUser {
 
     @Id
