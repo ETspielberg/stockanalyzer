@@ -11,9 +11,12 @@ import unidue.ub.media.blacklist.Ignored;
 
 @FeignClient("blacklist-backend")
 @Component
-public interface IgnoredGetterClient {
+public interface BlacklistClient {
 
     @RequestMapping(method= RequestMethod.GET, value="/getIgnoredFor/{identifier}")
     Resources<Ignored> getIgnoredForTittleId(@PathVariable String identifier);
+
+    @RequestMapping(method= RequestMethod.GET, value="/isBlocked/{identifier}")
+    Boolean isBlocked(@PathVariable String identifier, String type);
 
 }

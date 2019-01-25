@@ -13,7 +13,7 @@ import unidue.ub.stockanalyzer.model.settings.Notation;
 @Component
 public interface NotationGetterClient {
 
-    @RequestMapping(method= RequestMethod.GET, value="/notationForGroup/{identifier")
+    @RequestMapping(method= RequestMethod.GET, value="/notation/ForGroup/{identifier")
     Resources<Notation> getNotationListForNotationgroup(@PathVariable String identifier);
 
     @RequestMapping(method= RequestMethod.GET, value="/notation/search/getNotationList")

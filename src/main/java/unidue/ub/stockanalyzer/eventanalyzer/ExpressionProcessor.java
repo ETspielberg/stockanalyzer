@@ -9,15 +9,12 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
-import unidue.ub.media.blacklist.Ignored;
 import unidue.ub.media.monographs.Event;
 import unidue.ub.media.monographs.Expression;
-import unidue.ub.stockanalyzer.clients.IgnoredGetterClient;
+import unidue.ub.stockanalyzer.clients.BlacklistClient;
 import unidue.ub.stockanalyzer.model.data.Eventanalysis;
 import unidue.ub.stockanalyzer.model.settings.Stockcontrol;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static unidue.ub.stockanalyzer.MonographUtils.getActiveCollectionOverview;
@@ -29,7 +26,7 @@ public class ExpressionProcessor implements ItemProcessor<Expression, Eventanaly
     private static final Logger log = LoggerFactory.getLogger(ExpressionProcessor.class);
 
     @Autowired
-    private IgnoredGetterClient ignoredGetterClient;
+    private BlacklistClient blacklistClient;
 
     private Stockcontrol stockcontrol;
 
@@ -39,15 +36,12 @@ public class ExpressionProcessor implements ItemProcessor<Expression, Eventanaly
     @Override
     public Eventanalysis process(final Expression expression) {
         log.info("analyzing expression  " + expression.getShelfmarkBase() + " and shelfmark " + expression.getShelfmarkBase());
-        List<Ignored> ignoreds = new ArrayList<>();
-        ignoredGetterClient.getIgnoredForTittleId(expression.getShelfmarkBase()).forEach(ignoreds::add);
-        if (ignoreds.size() != 0) {
-            for (Ignored ignored : ignoreds) {
-                if (ignored.getExpire().after(new Date()) && ignored.getType().equals("eventanalysis"))
-                    return null;
-            }
-        }
-        return calculateAnalysis(expression, stockcontrol);
+        if (blacklistClient.isBlocked(expression.getId(), "eventanalysis")) {
+            log.info(expression.getId() + " is blacklisted, skipping analysis");
+            return null;
+        } else
+            return calculateAnalysis(expression, stockcontrol);
+
     }
 
     private Eventanalysis calculateAnalysis(Expression expression, Stockcontrol stockcontrol) {

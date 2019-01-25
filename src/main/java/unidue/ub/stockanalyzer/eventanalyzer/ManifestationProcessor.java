@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import unidue.ub.media.blacklist.Ignored;
 import unidue.ub.media.monographs.Event;
 import unidue.ub.media.monographs.Manifestation;
-import unidue.ub.stockanalyzer.clients.IgnoredGetterClient;
+import unidue.ub.stockanalyzer.clients.BlacklistClient;
 import unidue.ub.stockanalyzer.model.data.Eventanalysis;
 import unidue.ub.stockanalyzer.model.settings.Stockcontrol;
 
@@ -29,7 +29,7 @@ public class ManifestationProcessor implements ItemProcessor<Manifestation, Even
     private Stockcontrol stockcontrol;
 
     @Autowired
-    private IgnoredGetterClient ignoredGetterClient;
+    private BlacklistClient blacklistClient;
 
     public ManifestationProcessor() {
     }
@@ -37,14 +37,10 @@ public class ManifestationProcessor implements ItemProcessor<Manifestation, Even
     @Override
     public Eventanalysis process(final Manifestation manifestation) {
         log.info("analyzing manifestation " + manifestation.getTitleID() + " and shelfmark " + manifestation.getShelfmark());
-        List<Ignored> ignoreds = new ArrayList<>();
-        ignoredGetterClient.getIgnoredForTittleId(manifestation.getTitleID()).forEach(ignoreds::add);
-        if (ignoreds.size() != 0) {
-            for (Ignored ignored : ignoreds) {
-                if (ignored.getExpire().after(new Date()) && ignored.getType().equals("eventanalysis"))
-                    return null;
-            }
-        }
+        if (blacklistClient.isBlocked(manifestation.getTitleID(), "eventanalysis")) {
+            log.info(manifestation.getTitleID() + " is blacklisted, skipping analysis");
+            return null;
+        } else
         return calculateAnalysis(manifestation, stockcontrol);
     }
 

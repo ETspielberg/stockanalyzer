@@ -77,6 +77,8 @@ public class ManifestationReader implements ItemReader<Manifestation> {
                 }
             }
         }
+        for (String notation: notations)
+            log.info("found notation " + notation);
         manifestationData = new ArrayList<>();
         for (String notation : notations) {
             Consumer<Manifestation> buildManifestations = entry -> {
