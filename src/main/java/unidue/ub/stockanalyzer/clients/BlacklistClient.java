@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface BlacklistClient {
 
     @RequestMapping(method= RequestMethod.GET, value="/isBlocked/{identifier}")
-    Boolean isBlocked(@PathVariable String identifier, @RequestParam String type);
+    Boolean isBlocked(@PathVariable("identifier") String identifier, @RequestParam String type);
 
 }

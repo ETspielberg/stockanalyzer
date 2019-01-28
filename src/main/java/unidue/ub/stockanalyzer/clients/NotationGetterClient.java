@@ -16,7 +16,7 @@ import java.util.List;
 public interface NotationGetterClient {
 
     @RequestMapping(method= RequestMethod.GET, value="/notation/forGroup/{identifier}")
-    List<Notation> getNotationListForGroup(@PathVariable String identifier);
+    List<Notation> getNotationListForGroup(@PathVariable("identifier") String identifier);
 
     @RequestMapping(method= RequestMethod.GET, value="/notation/search/getNotationList")
     Resources<Notation> getNotationList(@RequestParam("startNotation") String startNotation, @RequestParam("endNotation") String endNotation);
