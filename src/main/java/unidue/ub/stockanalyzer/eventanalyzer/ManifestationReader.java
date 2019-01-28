@@ -57,7 +57,7 @@ public class ManifestationReader implements ItemReader<Manifestation> {
         List<String> notations = new ArrayList<>();
         String[] notationGroupStrings;
         if (stockcontrol.getSystemCode().isEmpty()) {
-            notationGetterClient.getNotationListForNotationgroup(stockcontrol.getSubjectID()).forEach(entry -> notations.add(entry.getNotation()));
+            notationGetterClient.getNotationListForGroup(stockcontrol.getSubjectID()).forEach(entry -> notations.add(entry.getNotation()));
             for (String notation : notations) {
                 log.info("found notation " + notation);
             }

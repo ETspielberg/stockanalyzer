@@ -20,7 +20,7 @@ public class FeignConfiguration {
 
     @Bean
     public BasicAuthRequestInterceptor basicAuthRequestInterceptor() {
-        log.info("requesting settings backend with user " + username);
+        log.info("requesting backend service with user " + username);
         return new BasicAuthRequestInterceptor(username, password);
     }
 }
