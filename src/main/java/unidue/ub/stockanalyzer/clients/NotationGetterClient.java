@@ -1,6 +1,7 @@
 package unidue.ub.stockanalyzer.clients;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClientProperties;
 import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import unidue.ub.stockanalyzer.model.settings.Notation;
 
-@FeignClient("settings-backend")
+@FeignClient(name="settings-backend", configuration = FeignConfiguration.class)
 @Component
 public interface NotationGetterClient {
 

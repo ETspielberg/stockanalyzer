@@ -1,6 +1,7 @@
 package unidue.ub.stockanalyzer.clients;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClientProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,7 +10,7 @@ import unidue.ub.media.monographs.Manifestation;
 
 import java.util.List;
 
-@FeignClient("getter")
+@FeignClient(name="getter", configuration = FeignConfiguration.class)
 @Component
 public interface ManifestationGetterClient {
     @RequestMapping(method= RequestMethod.GET, value="/manifestations")

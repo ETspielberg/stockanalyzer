@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import unidue.ub.media.blacklist.Ignored;
 
 
-@FeignClient("blacklist-backend")
+@FeignClient(name="blacklist-backend", configuration = FeignConfiguration.class)
 @Component
 public interface BlacklistClient {
 
