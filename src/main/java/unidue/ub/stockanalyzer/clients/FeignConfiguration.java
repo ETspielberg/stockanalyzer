@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FeignConfiguration {
 
-    @Value("${libintel.system.username}")
+    @Value("${spring.security.user.name}")
     private String username;
 
-    @Value("${libintel.system.password}")
+    @Value("${spring.security.user.password}")
     private String password;
 
     private static Logger log = LoggerFactory.getLogger(FeignConfiguration.class);

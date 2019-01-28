@@ -24,8 +24,6 @@ public class StockanalyzerApplication extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.httpBasic()
 				.and()
-				.authorizeRequests().anyRequest().hasIpAddress("::1")
-				.and()
 				.authorizeRequests().anyRequest().authenticated()
 				.and()
 				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
