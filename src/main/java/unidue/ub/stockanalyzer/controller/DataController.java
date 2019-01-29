@@ -75,7 +75,8 @@ public class DataController {
             return ResponseEntity.notFound().build();
         Alertcontrol alertcontrol = alertcontrolOpt.get();
         Notationgroup notationgroup = notationGetterClient.getNotationgroup(alertcontrol.getNotationgroup()).getContent();
-        List<Nrequests> nrequestss = this.nrequestsRepository.getNrequestsForAlertcontrolData(notationgroup.getNotationsStart(), notationgroup.getNotationsEnd(),  new Timestamp(alertcontrol.getTimeperiod()), alertcontrol.getThresholdDuration(), alertcontrol.getThresholdRequests(), alertcontrol.getThresholdRatio());
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis() - alertcontrol.getTimeperiod()*24*60*60*1000);
+        List<Nrequests> nrequestss = this.nrequestsRepository.getNrequestsForAlertcontrolData(notationgroup.getNotationsStart(), notationgroup.getNotationsEnd(), timestamp, alertcontrol.getThresholdDuration(), alertcontrol.getThresholdRequests(), alertcontrol.getThresholdRatio());
         for (Nrequests nrequests : nrequestss) {
             if (!this.blacklistClient.isBlocked(nrequests.getIdentifier(), "nrequests")) {
                 if (!("".equals(requestor))) {
