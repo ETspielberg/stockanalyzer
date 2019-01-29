@@ -68,7 +68,7 @@ public class DataController {
     }
 
     @GetMapping("/nrequests/forAlertcontrol/{identifier}")
-    public ResponseEntity<?> getForTimeperiod(@PathVariable("identifier") String identifier, @RequestParam("requestor") Optional<String> requestor) {
+    public ResponseEntity<?> getForAlertcontrol(@PathVariable("identifier") String identifier, @RequestParam("requestor") String requestor) {
         List<Nrequests> notBlacklistedNrequests = new ArrayList<>();
         Optional<Alertcontrol> alertcontrolOpt = alertcontrolRepository.findById(identifier);
         if (!alertcontrolOpt.isPresent())
@@ -79,13 +79,13 @@ public class DataController {
         for (Nrequests nrequests : nrequestss) {
             if (!this.blacklistClient.isBlocked(nrequests.getIdentifier(), "nrequests")) {
                 notBlacklistedNrequests.add(nrequests);
-                if (requestor.isPresent()) {
+                if (!("".equals(requestor))) {
                     if (nrequests.getStatus() == null || nrequests.getStatus().equals("") || nrequests.getStatus().equals("NEW")) {
-                        nrequests.setStatus(requestor.get());
-                    } else if (nrequests.getStatus().contains(requestor.get())) {
+                        nrequests.setStatus(requestor);
+                    } else if (nrequests.getStatus().contains(requestor)) {
                         continue;
                     } else {
-                        nrequests.setStatus(nrequests.getStatus() + " " + requestor.get());
+                        nrequests.setStatus(nrequests.getStatus() + " " + requestor);
                     }
                     nrequestsRepository.save(nrequests);
                 }
