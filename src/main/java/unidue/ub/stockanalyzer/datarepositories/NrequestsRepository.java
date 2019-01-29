@@ -16,8 +16,12 @@ import java.util.List;
 public interface NrequestsRepository  extends PagingAndSortingRepository<Nrequests, String> {
 
     @Query(value = "SELECT p.* FROM Nrequests p WHERE SUBSTRING(p.shelfmark,1,3) BETWEEN :startNotation AND :endNotation", nativeQuery = true)
-    public List<Nrequests> getNrequestsForNotationgroup(@Param("startNotation") String startNotation, @Param("endNotation") String endNotation);
+    List<Nrequests> getNrequestsForNotationgroup(@Param("startNotation") String startNotation, @Param("endNotation") String endNotation);
 
     @Query(value = "SELECT p.* FROM Nrequests p WHERE SUBSTRING(p.shelfmark,1,3) BETWEEN :startNotation AND :endNotation AND date >= :startDate", nativeQuery = true)
-    public List<Nrequests> getNrequestsForNotationgroupSinceDate(@Param("startNotation") String startNotation, @Param("endNotation") String endNotation, @Param("startDate") @Temporal(TemporalType.TIMESTAMP) Date startDate);
+    List<Nrequests> getNrequestsForNotationgroupSinceDate(@Param("startNotation") String startNotation, @Param("endNotation") String endNotation, @Param("startDate") @Temporal(TemporalType.TIMESTAMP) Date startDate);
+
+    @Query(value = "SELECT p.* FROM Nrequests p WHERE SUBSTRING(p.shelfmark,1,3) BETWEEN :startNotation AND :endNotation AND p.date >= :startDate  AND (p.total_duration > :thresholdDuration OR p.nrequests > ThresholdNrequests OR p.ratio > :thresholdRatio )", nativeQuery = true)
+    List<Nrequests> getNrequestsForAlertcontrolData(String startNotation, String endNotation, @Temporal(TemporalType.TIMESTAMP) Date startDate, int thresholdDuration, int thresholdNrequests, double thresholdRatio);
+
 }

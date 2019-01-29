@@ -52,7 +52,7 @@ public class NrequestsConfiguration {
 
     @Bean
     public Job nrequestsJob() {
-        return jobBuilderFactory.get("sushiJob")
+        return jobBuilderFactory.get("nrequestsJob")
                 .incrementer(new RunIdIncrementer())
                 .start(stepNrequests())
                 .build();

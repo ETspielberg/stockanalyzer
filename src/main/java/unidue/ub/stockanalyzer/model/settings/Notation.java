@@ -2,25 +2,17 @@ package unidue.ub.stockanalyzer.model.settings;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 /**
  * Plain old java object holding a notation and the corresponding description.
  * 
  * @author Eike Spielberg
  * @version 1
  */
-@Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Notation {
 
-	@Id
-	@Column(unique=true)
 	private String notation;
 
-	@Column(columnDefinition = "TEXT")
 	private String description;
 
 	/**

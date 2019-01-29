@@ -33,8 +33,10 @@ public class DataWriter implements ItemWriter {
     @Override
     public void write(List list) {
         long successful = 0;
+        String type = "";
         for (Object object : list) {
-                switch (object.getClass().getSimpleName()) {
+            type = object.getClass().getSimpleName();
+                switch (type) {
                     case "Eventanalysis":
                         eventanalysisRepository.save((Eventanalysis) object);
                         successful++;
@@ -53,7 +55,7 @@ public class DataWriter implements ItemWriter {
                 log.warn("could not save object");
             }*/
         }
-        log.info("successfully saved " + successful + " of " + list.size() + " counter data.");
+        log.info("successfully saved " + successful + " of " + list.size() + " " + type);
     }
 
 }
