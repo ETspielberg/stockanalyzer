@@ -78,14 +78,15 @@ public class DataController {
         List<Nrequests> nrequestss = this.nrequestsRepository.getNrequestsForAlertcontrolData(notationgroup.getNotationsStart(), notationgroup.getNotationsEnd(),  new Timestamp(alertcontrol.getTimeperiod()), alertcontrol.getThresholdDuration(), alertcontrol.getThresholdRequests(), alertcontrol.getThresholdRatio());
         for (Nrequests nrequests : nrequestss) {
             if (!this.blacklistClient.isBlocked(nrequests.getIdentifier(), "nrequests")) {
-                notBlacklistedNrequests.add(nrequests);
                 if (!("".equals(requestor))) {
                     if (nrequests.getStatus() == null || nrequests.getStatus().equals("") || nrequests.getStatus().equals("NEW")) {
                         nrequests.setStatus(requestor);
+                        notBlacklistedNrequests.add(nrequests);
                     } else if (nrequests.getStatus().contains(requestor)) {
                         continue;
                     } else {
                         nrequests.setStatus(nrequests.getStatus() + " " + requestor);
+                        notBlacklistedNrequests.add(nrequests);
                     }
                     nrequestsRepository.save(nrequests);
                 }
