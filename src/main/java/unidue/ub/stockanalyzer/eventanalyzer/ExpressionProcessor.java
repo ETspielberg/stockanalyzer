@@ -14,6 +14,8 @@ import unidue.ub.media.monographs.Expression;
 import unidue.ub.stockanalyzer.clients.BlacklistClient;
 import unidue.ub.stockanalyzer.model.data.Eventanalysis;
 import unidue.ub.stockanalyzer.model.settings.Stockcontrol;
+import unidue.ub.stockanalyzer.settingsrepositories.ItemGroupRepository;
+import unidue.ub.stockanalyzer.settingsrepositories.UserGroupRepository;
 
 import java.util.List;
 
@@ -27,6 +29,12 @@ public class ExpressionProcessor implements ItemProcessor<Expression, Eventanaly
 
     @Autowired
     private BlacklistClient blacklistClient;
+
+    @Autowired
+    private ItemGroupRepository itemGroupRepository;
+
+    @Autowired
+    UserGroupRepository userGroupRepository;
 
     private Stockcontrol stockcontrol;
 
@@ -47,7 +55,7 @@ public class ExpressionProcessor implements ItemProcessor<Expression, Eventanaly
     private Eventanalysis calculateAnalysis(Expression expression, Stockcontrol stockcontrol) {
         ItemFilter itemFilter = new ItemFilter(stockcontrol.getCollections(), stockcontrol.getMaterials());
         List<Event> events = getFilteredEvents(expression.getItems(),itemFilter);
-        Eventanalysis analysis = new EventAnalyzer().analyze(events, stockcontrol);
+        Eventanalysis analysis = new EventAnalyzer(userGroupRepository, itemGroupRepository).analyze(events, stockcontrol);
         analysis.setTitleId(expression.getShelfmarkBase());
         analysis.setShelfmark(expression.getShelfmarkBase());
         analysis.setMab(expression.getBibliographicInformation().toString());

@@ -30,11 +30,9 @@ import java.util.function.Consumer;
 @Component
 public class EventAnalyzer {
 
-    @Autowired
-    private UserGroupRepository userGroupRepository;
+    private final UserGroupRepository userGroupRepository;
 
-    @Autowired
-    private ItemGroupRepository itemGroupRepository;
+    private final ItemGroupRepository itemGroupRepository;
 
 
     private static final Logger log = LoggerFactory.getLogger(EventAnalyzer.class);
@@ -44,7 +42,10 @@ public class EventAnalyzer {
     private Map<String, String> userGroups;
     private Map<String, String> itemGroups;
 
-    EventAnalyzer() {
+    @Autowired
+    EventAnalyzer(UserGroupRepository userGroupRepository, ItemGroupRepository itemGroupRepository) {
+        this.userGroupRepository = userGroupRepository;
+        this.itemGroupRepository = itemGroupRepository;
     }
 
     /**

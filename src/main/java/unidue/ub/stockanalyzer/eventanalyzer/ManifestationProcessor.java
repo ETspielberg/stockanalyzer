@@ -14,6 +14,8 @@ import unidue.ub.media.monographs.Manifestation;
 import unidue.ub.stockanalyzer.clients.BlacklistClient;
 import unidue.ub.stockanalyzer.model.data.Eventanalysis;
 import unidue.ub.stockanalyzer.model.settings.Stockcontrol;
+import unidue.ub.stockanalyzer.settingsrepositories.ItemGroupRepository;
+import unidue.ub.stockanalyzer.settingsrepositories.UserGroupRepository;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +32,12 @@ public class ManifestationProcessor implements ItemProcessor<Manifestation, Even
 
     @Autowired
     private BlacklistClient blacklistClient;
+
+    @Autowired
+    private ItemGroupRepository itemGroupRepository;
+
+    @Autowired
+    UserGroupRepository userGroupRepository;
 
     public ManifestationProcessor() {
     }
@@ -55,7 +63,7 @@ public class ManifestationProcessor implements ItemProcessor<Manifestation, Even
     private Eventanalysis calculateAnalysis(Manifestation manifestation, Stockcontrol stockcontrol) {
         ItemFilter itemFilter = new ItemFilter(stockcontrol.getCollections(), stockcontrol.getMaterials());
         List<Event> events = getFilteredEvents(manifestation.getItems(),itemFilter);
-        Eventanalysis analysis = new EventAnalyzer().analyze(events, stockcontrol);
+        Eventanalysis analysis = new EventAnalyzer(userGroupRepository, itemGroupRepository).analyze(events, stockcontrol);
         analysis.setTitleId(manifestation.getTitleID());
         analysis.setShelfmark(manifestation.getShelfmark());
         analysis.setMab(manifestation.getBibliographicInformation().getFullDescription());
