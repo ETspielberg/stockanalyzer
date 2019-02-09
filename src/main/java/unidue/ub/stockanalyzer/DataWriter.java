@@ -38,8 +38,12 @@ public class DataWriter implements ItemWriter {
             type = object.getClass().getSimpleName();
                 switch (type) {
                     case "Eventanalysis":
-                        eventanalysisRepository.save((Eventanalysis) object);
-                        successful++;
+                        try {
+                            eventanalysisRepository.save((Eventanalysis) object);
+                            successful++;
+                        } catch (Exception e) {
+                            log.warn("could not save eventanalysis " + ((Eventanalysis) object).getIdentifier() + " - " + ((Eventanalysis) object).getShelfmark());
+                        }
                         break;
                     case "Nrequests":
 
