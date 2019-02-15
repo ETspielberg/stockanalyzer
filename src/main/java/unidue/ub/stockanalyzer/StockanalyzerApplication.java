@@ -27,10 +27,12 @@ public class StockanalyzerApplication extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				.antMatchers("/usergroup").hasIpAddress("127.0.0.1")
 				.antMatchers("/itemgroup").hasIpAddress("127.0.0.1")
+				.antMatchers("/itemlist", "/itemlist/", "/itemlist/**").hasIpAddress("127.0.0.1")
+				.antMatchers("/savedItem", "/savedItem/", "/savedItem/**").hasIpAddress("127.0.0.1")
 				.and()
 				.authorizeRequests()
 				.anyRequest().authenticated()
 				.and()
-				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+				.csrf().disable(); //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 }

@@ -3,11 +3,11 @@ package unidue.ub.stockanalyzer.model.lists;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name="item_list")
-public class ItemList {
+public class Itemlist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,10 +18,12 @@ public class ItemList {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    private Date lastChange;
+
     @JsonIgnore
     private String username;
 
-    ItemList() {
+    Itemlist() {
         description = "";
         name = "";
     }
@@ -56,5 +58,13 @@ public class ItemList {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Date getLastChange() {
+        return lastChange;
+    }
+
+    public void setLastChange(Date lastChange) {
+        this.lastChange = lastChange;
     }
 }

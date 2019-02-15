@@ -38,7 +38,7 @@ public class SettingsDatabaseConfiguration {
     ) {
         return builder
                 .dataSource(dataSource)
-                .packages("unidue.ub.stockanalyzer.model.settings")
+                .packages("unidue.ub.stockanalyzer.model.settings", "unidue.ub.stockanalyzer.model.lists")
                 .build();
     }
 
