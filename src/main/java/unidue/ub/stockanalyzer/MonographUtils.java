@@ -91,6 +91,8 @@ public class MonographUtils {
         HashMap<String, Integer> numberOfItems = new HashMap<>();
         for (Item item : items) {
             if (item.getDeletionDate() != null) {
+                if (item.getDeletionDate().isEmpty())
+                    continue;
                 if (numberOfItems.containsKey(item.getCollection())) {
                     Integer count = numberOfItems.get(item.getCollection());
                     count = count + 1;
