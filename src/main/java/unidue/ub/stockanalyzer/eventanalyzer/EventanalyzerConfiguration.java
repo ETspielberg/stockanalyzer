@@ -99,6 +99,7 @@ public class EventanalyzerConfiguration {
         FlowBuilder<Flow> flowBuilder = new FlowBuilder<>("eventanalyzerFlow");
         Flow flow = flowBuilder
                 .start(initStockcontrol())
+                .next(step1())
                 .next(setOldAnalysisToObsolete())
                 .next(decision())
                 .on(decision().FAILED)
@@ -122,8 +123,7 @@ public class EventanalyzerConfiguration {
     Flow manifestationFlow() {
         FlowBuilder<Flow> flowBuilder = new FlowBuilder<>("manifestationFlow");
         return flowBuilder
-                .start(step1())
-                .next(step2Manifestation())
+                .start(step2Manifestation())
                 .next(step3()).end();
     }
 
@@ -131,8 +131,7 @@ public class EventanalyzerConfiguration {
     Flow expressionFlow() {
         FlowBuilder<Flow> flowBuilder = new FlowBuilder<>("expressionFlow");
         return flowBuilder
-                .start(step1())
-                .next(step2Expression())
+                .start(step2Expression())
                 .next(step3()).end();
     }
 
