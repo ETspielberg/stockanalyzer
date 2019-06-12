@@ -16,4 +16,7 @@ public interface StockcontrolRepository extends PagingAndSortingRepository<Stock
 
     @Query(value = "select s.* from profile s,profiles_per_user ppu where s.identifier = ppu.identifier and ppu.username = :username and dtype='Stockcontrol' ORDER BY s.system_code",nativeQuery = true)
     List<Stockcontrol> findByUsername(@Param("username") String username);
+
+    @Query(value = "select s.* from profile s,profiles_per_user ppu where s.identifier = ppu.identifier and ppu.username = :username and dtype='Stockcontrol' and status = 'RUNNING' ORDER BY s.system_code",nativeQuery = true)
+    List<Stockcontrol> findRunningByUsername(@Param("username") String username);
 }

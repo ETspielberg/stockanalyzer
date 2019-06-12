@@ -1,5 +1,7 @@
 package unidue.ub.stockanalyzer.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,8 @@ public class DataController {
 
     private final BlacklistClient blacklistClient;
 
+    private final Logger log = LoggerFactory.getLogger(DataController.class);
+
     @Autowired
     public DataController(StockcontrolRepository stockcontrolRepository,
                           AlertcontrolRepository alertcontrolRepository,
@@ -71,12 +75,13 @@ public class DataController {
     public ResponseEntity<?> getForAlertcontrol(@PathVariable("identifier") String identifier, @RequestParam("requestor") String requestor) {
         List<Nrequests> notBlacklistedNrequests = new ArrayList<>();
         Optional<Alertcontrol> alertcontrolOpt = alertcontrolRepository.findById(identifier);
-        if (!alertcontrolOpt.isPresent())
+        if (alertcontrolOpt.isEmpty())
             return ResponseEntity.notFound().build();
         Alertcontrol alertcontrol = alertcontrolOpt.get();
         Notationgroup notationgroup = notationGetterClient.getNotationgroup(alertcontrol.getNotationgroup()).getContent();
+        log.info("retrieved notationgroup with start notation " + notationgroup.getNotationsStart() + " till " + notationgroup.getNotationsEnd());
         Timestamp timestamp = new Timestamp(System.currentTimeMillis() - alertcontrol.getTimeperiod()*24*60*60*1000);
-        List<Nrequests> nrequestss = this.nrequestsRepository.getNrequestsForAlertcontrolData(notationgroup.getNotationsStart(), notationgroup.getNotationsEnd(), timestamp, alertcontrol.getThresholdDuration(), alertcontrol.getThresholdRequests(), alertcontrol.getThresholdRatio());
+        List<Nrequests> nrequestss = this.nrequestsRepository.getNrequestsForAlertcontrolData(notationgroup.getNotationsStart(), notationgroup.getNotationsEnd(), timestamp, (long) alertcontrol.getThresholdDuration(), alertcontrol.getThresholdRequests(), alertcontrol.getThresholdRatio());
         for (Nrequests nrequests : nrequestss) {
             if (!this.blacklistClient.isBlocked(nrequests.getIdentifier(), "nrequests")) {
                 if (!("".equals(requestor))) {
@@ -113,6 +118,12 @@ public class DataController {
     public ResponseEntity<List<Alertcontrol>> getAllAlertcontrol(@PathVariable String username) {
         List<Alertcontrol> alertcontrols = new ArrayList<>(alertcontrolRepository.findByUsername(username));
         return ResponseEntity.ok(alertcontrols);
+    }
+
+    @GetMapping("stockcontrol/running/peruser/{username}")
+    public ResponseEntity<List<Stockcontrol>> getRunningStockcontrols(@PathVariable String username) {
+        List<Stockcontrol> stockcontrols = new ArrayList<>(stockcontrolRepository.findRunningByUsername(username));
+        return ResponseEntity.ok(stockcontrols);
     }
 
     @PostMapping("eventanalysis/setAnalysisStatus")
