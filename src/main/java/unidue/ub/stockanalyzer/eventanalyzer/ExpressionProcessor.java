@@ -44,11 +44,16 @@ public class ExpressionProcessor implements ItemProcessor<Expression, Eventanaly
     @Override
     public Eventanalysis process(final Expression expression) {
         log.info("analyzing expression  " + expression.getShelfmarkBase() + " and shelfmark " + expression.getShelfmarkBase());
-        if (blacklistClient.isBlocked(expression.getId(), "eventanalysis")) {
-            log.info(expression.getId() + " is blacklisted, skipping analysis");
-            return null;
-        } else
+        try {
+            if (blacklistClient.isBlocked(expression.getShelfmarkBase(), "eventanalysis")) {
+                log.info(expression.getId() + " is blacklisted, skipping analysis");
+                return null;
+            } else
+                return calculateAnalysis(expression, stockcontrol);
+        } catch ( Exception e) {
+            log.warn("could not connect to blacklist", e);
             return calculateAnalysis(expression, stockcontrol);
+        }
 
     }
 
