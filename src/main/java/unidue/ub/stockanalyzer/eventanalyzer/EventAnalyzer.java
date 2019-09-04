@@ -3,8 +3,6 @@ package unidue.ub.stockanalyzer.eventanalyzer;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import unidue.ub.media.monographs.Event;
 import unidue.ub.stockanalyzer.model.data.Eventanalysis;
 import unidue.ub.stockanalyzer.model.settings.ItemGroup;
@@ -27,7 +25,6 @@ import java.util.function.Consumer;
  * @author Eike Spielberg
  * @version 1
  */
-@Component
 public class EventAnalyzer {
 
     private final UserGroupRepository userGroupRepository;
@@ -42,7 +39,6 @@ public class EventAnalyzer {
     private Map<String, String> userGroups;
     private Map<String, String> itemGroups;
 
-    @Autowired
     EventAnalyzer(UserGroupRepository userGroupRepository, ItemGroupRepository itemGroupRepository) {
         this.userGroupRepository = userGroupRepository;
         this.itemGroupRepository = itemGroupRepository;
@@ -82,7 +78,7 @@ public class EventAnalyzer {
             LocalDate miniumumDate = TODAY.minus(stockcontrol.getMinimumYears(), ChronoUnit.YEARS);
             Collections.sort(events);
 
-            Integer yearsBefore = TODAY.getYear() - Integer.parseInt(events.get(0).getDate().substring(0, 4));
+            int yearsBefore = TODAY.getYear() - Integer.parseInt(events.get(0).getDate().substring(0, 4));
 
 
             for (int year = 0; year <= yearsBefore; year++) {
@@ -95,6 +91,7 @@ public class EventAnalyzer {
                 try {
                     eventDate = LocalDate.parse(event.getDate().substring(0, 10), dtf);
                 } catch (Exception e) {
+                    log.debug("could not parse event date", e);
                     continue;
                 }
                 if (eventDate.isAfter(TODAY))
@@ -129,6 +126,7 @@ public class EventAnalyzer {
                     try {
                         endDate = LocalDate.parse(endEvent.getDate().substring(0, 10), dtf);
                     } catch (Exception e) {
+                        log.debug("could not parse end date, setting end date to today", e);
                         endDate = eventDate;
                     }
                 else
@@ -202,7 +200,7 @@ public class EventAnalyzer {
                 proposedDeletion = (
                         (int) ((usagecounter.stock - analysis.getMaxLoansAbs() - staticBuffer)
                                 - variableBuffer * ratio));
-            else if (staticBuffer < 1 && variableBuffer < 1)
+            else if (staticBuffer < 1 && variableBuffer >= 1)
                 proposedDeletion = (
                         (int) ((usagecounter.stock - analysis.getMaxLoansAbs()) * (1 - staticBuffer)
                                 - variableBuffer * ratio));

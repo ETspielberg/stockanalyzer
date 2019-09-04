@@ -34,7 +34,7 @@ public class StockcontrolInitializerTasklet implements Tasklet {
         Stockcontrol stockcontrol = result.orElseGet(Stockcontrol::new);
         ExecutionContext stepContext = chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();
         stepContext.put("stockcontrol", stockcontrol);
-        log.info("stored stockcontrol " + identifier + " in job context");
+        log.debug("stored stockcontrol " + identifier + " in job context");
         return RepeatStatus.FINISHED;
     }
 }

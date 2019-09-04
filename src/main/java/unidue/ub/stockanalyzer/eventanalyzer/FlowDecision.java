@@ -26,13 +26,13 @@ public class FlowDecision implements JobExecutionDecider {
     public FlowExecutionStatus decide(JobExecution jobExecution, StepExecution stepExecution) {
 
         Stockcontrol stockcontrol = (Stockcontrol) jobExecution.getExecutionContext().get("stockcontrol");
-        log.info("deciding upon stockcontrol " + stockcontrol);
+        log.debug("deciding upon stockcontrol " + stockcontrol);
         if (stockcontrol == null)
             return FlowExecutionStatus.UNKNOWN;
-        log.info("deciding upon identifier " + stockcontrol.getIdentifier());
+        log.debug("deciding upon identifier " + stockcontrol.getIdentifier());
         if (stockcontrol.getIdentifier().equals("newProfile"))
             return FlowExecutionStatus.UNKNOWN;
-        log.info("grouped analysis : " + stockcontrol.isGroupedAnalysis());
+        log.debug("grouped analysis : " + stockcontrol.isGroupedAnalysis());
         if (stockcontrol.isGroupedAnalysis())
             return FlowExecutionStatus.COMPLETED;
         else

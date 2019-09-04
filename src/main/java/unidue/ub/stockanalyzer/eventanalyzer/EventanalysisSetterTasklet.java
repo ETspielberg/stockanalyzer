@@ -33,7 +33,7 @@ public class EventanalysisSetterTasklet implements Tasklet {
         try {
             eventanalysisRepository.setEventanalysisStatusForStockcontrolIds(identifier,status.name());
         } catch (JpaSystemException jse) {
-            log.info("no old eventanalyses to change status to obsolete.");
+            log.debug("no old eventanalyses to change status to obsolete.", jse);
         }
 
         return RepeatStatus.FINISHED;

@@ -44,11 +44,11 @@ public class ManifestationProcessor implements ItemProcessor<Manifestation, Even
 
     @Override
     public Eventanalysis process(final Manifestation manifestation) {
-        log.info("analyzing manifestation " + manifestation.getTitleID() + " and shelfmark " + manifestation.getShelfmark());
         if (blacklistClient.isBlocked(manifestation.getTitleID(), "eventanalysis")) {
-            log.info(manifestation.getTitleID() + " is blacklisted, skipping analysis");
+            log.debug(manifestation.getTitleID() + " is blacklisted, skipping analysis");
             return null;
         } else
+            log.debug("analyzing manifestation " + manifestation.getTitleID() + " and shelfmark " + manifestation.getShelfmark());
         return calculateAnalysis(manifestation, stockcontrol);
     }
 

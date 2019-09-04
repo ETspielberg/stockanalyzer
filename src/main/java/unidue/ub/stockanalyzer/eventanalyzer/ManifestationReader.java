@@ -59,7 +59,7 @@ public class ManifestationReader implements ItemReader<Manifestation> {
         if (stockcontrol.getSystemCode().isEmpty()) {
             notationGetterClient.getNotationListForGroup(stockcontrol.getSubjectID()).forEach(entry -> notations.add(entry.getNotation()));
             for (String notation : notations) {
-                log.info("found notation " + notation);
+                log.debug("found notation " + notation);
             }
         } else {
             if (stockcontrol.getSystemCode().contains(",")) {
@@ -78,7 +78,7 @@ public class ManifestationReader implements ItemReader<Manifestation> {
             }
         }
         for (String notation: notations)
-            log.info("found notation " + notation);
+            log.debug("found notation " + notation);
         manifestationData = new ArrayList<>();
         for (String notation : notations) {
             Consumer<Manifestation> buildManifestations = entry -> {

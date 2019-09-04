@@ -43,15 +43,17 @@ public class ExpressionProcessor implements ItemProcessor<Expression, Eventanaly
 
     @Override
     public Eventanalysis process(final Expression expression) {
-        log.info("analyzing expression  " + expression.getShelfmarkBase() + " and shelfmark " + expression.getShelfmarkBase());
+        expression.calculateId();
         try {
             if (blacklistClient.isBlocked(expression.getShelfmarkBase(), "eventanalysis")) {
-                log.info(expression.getId() + " is blacklisted, skipping analysis");
+                log.debug(expression.getId() + " is blacklisted, skipping analysis");
                 return null;
-            } else
+            } else {
+                log.info("analyzing title ids '" + expression.getId() + "' with shelfmarks '" + expression.getShelfmarkBase() + "'");
                 return calculateAnalysis(expression, stockcontrol);
+            }
         } catch ( Exception e) {
-            log.warn("could not connect to blacklist", e);
+            log.debug("could not connect to blacklist", e);
             return calculateAnalysis(expression, stockcontrol);
         }
 
@@ -73,6 +75,6 @@ public class ExpressionProcessor implements ItemProcessor<Expression, Eventanaly
         JobExecution jobExecution = stepExecution.getJobExecution();
         ExecutionContext jobContext = jobExecution.getExecutionContext();
         this.stockcontrol = (Stockcontrol) jobContext.get("stockcontrol");
-        log.info("retrieved stockcontrol " + stockcontrol.toString() + " from execution context by expression processor");
+        log.debug("retrieved stockcontrol " + stockcontrol.toString() + " from execution context by expression processor");
     }
 }
