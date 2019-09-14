@@ -44,7 +44,7 @@ CREATE TABLE NOT EXISTS database_counter
   regular_searches bigint NOT NULL,
   result_clicks bigint NOT NULL,
   year integer NOT NULL,
-  title character varying(255),
+  longDescription character varying(255),
   profile character varying(255),
   CONSTRAINT database_counter_pkey PRIMARY KEY (id)
 )
@@ -75,7 +75,7 @@ CREATE TABLE NOT EXISTS ebook_counter
   ps_requests_mobile bigint NOT NULL,
   publisher character varying(255),
   section_requests character varying(255),
-  title character varying(255),
+  longDescription character varying(255),
   total_requests bigint NOT NULL,
   year integer NOT NULL,
   proprietary_identifier character varying(255),

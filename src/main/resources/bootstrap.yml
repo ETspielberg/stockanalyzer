@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: stock-analyzer
+  cloud:
+    config:
+      uri: http://localhost:11811
+      name: mail, settings-datasource, data-datasource
+      username: ${libintel_config_username:dalek}
+      password: ${libintel_config_password:3l1m1nat3}
+      label: ${libintel.profile:dev}
+  security:
+    user:
+      name: ${libintel_system_username:thedoctor}
+      password: ${libintel_system_password:Tard15}
+  jpa:
+    generate-ddl: true
+  main:
+    allow-bean-definition-overriding: true
