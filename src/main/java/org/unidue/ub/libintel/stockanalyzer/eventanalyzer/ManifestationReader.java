@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.unidue.ub.libintel.stockanalyzer.clients.ManifestationGetterClient;
 import org.unidue.ub.libintel.stockanalyzer.clients.NotationGetterClient;
+import org.unidue.ub.libintel.stockanalyzer.model.media.Manifestation;
 import org.unidue.ub.libintel.stockanalyzer.model.settings.Stockcontrol;
-import unidue.ub.media.monographs.Manifestation;
 
 import java.util.ArrayList;
 import java.util.List;

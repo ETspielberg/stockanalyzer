@@ -1,6 +1,7 @@
 package org.unidue.ub.libintel.stockanalyzer.eventanalyzer;
 
-import unidue.ub.media.monographs.Event;
+
+import org.unidue.ub.libintel.stockanalyzer.model.media.Event;
 
 import java.util.regex.Pattern;
 

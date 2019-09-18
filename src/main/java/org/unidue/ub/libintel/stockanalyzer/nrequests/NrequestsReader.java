@@ -2,7 +2,7 @@ package org.unidue.ub.libintel.stockanalyzer.nrequests;
 
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import unidue.ub.media.monographs.Manifestation;
+import org.unidue.ub.libintel.stockanalyzer.model.media.Manifestation;
 import org.unidue.ub.libintel.stockanalyzer.clients.ManifestationGetterClient;
 
 import java.util.ArrayList;

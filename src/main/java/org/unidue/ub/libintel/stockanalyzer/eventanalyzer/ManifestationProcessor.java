@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.unidue.ub.libintel.stockanalyzer.MonographUtils;
 import org.unidue.ub.libintel.stockanalyzer.clients.BlacklistClient;
 import org.unidue.ub.libintel.stockanalyzer.model.data.Eventanalysis;
+import org.unidue.ub.libintel.stockanalyzer.model.media.Event;
+import org.unidue.ub.libintel.stockanalyzer.model.media.Manifestation;
 import org.unidue.ub.libintel.stockanalyzer.model.settings.Stockcontrol;
 import org.unidue.ub.libintel.stockanalyzer.settingsrepositories.ItemGroupRepository;
 import org.unidue.ub.libintel.stockanalyzer.settingsrepositories.UserGroupRepository;
-import unidue.ub.media.monographs.Event;
-import unidue.ub.media.monographs.Manifestation;
 
 import java.util.List;
 

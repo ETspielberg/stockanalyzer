@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import unidue.ub.media.monographs.Manifestation;
+import org.unidue.ub.libintel.stockanalyzer.model.media.Manifestation;
 
 import java.util.List;
 

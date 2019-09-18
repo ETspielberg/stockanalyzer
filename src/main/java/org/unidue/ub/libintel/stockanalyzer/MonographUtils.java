@@ -1,12 +1,13 @@
 package org.unidue.ub.libintel.stockanalyzer;
 
+import org.apache.commons.lang.StringUtils;
 import org.unidue.ub.libintel.stockanalyzer.eventanalyzer.ItemFilter;
 import org.unidue.ub.libintel.stockanalyzer.model.data.CaldRequest;
 import org.unidue.ub.libintel.stockanalyzer.model.data.Nrequests;
-import unidue.ub.media.monographs.BibliographicInformation;
-import unidue.ub.media.monographs.Event;
-import unidue.ub.media.monographs.Item;
-import unidue.ub.media.monographs.Manifestation;
+import org.unidue.ub.libintel.stockanalyzer.model.media.BibliographicInformation;
+import org.unidue.ub.libintel.stockanalyzer.model.media.Event;
+import org.unidue.ub.libintel.stockanalyzer.model.media.Item;
+import org.unidue.ub.libintel.stockanalyzer.model.media.Manifestation;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -106,6 +107,6 @@ public class MonographUtils {
         numberOfItems.forEach(
                 (String key, Integer value) -> collections.append(String.valueOf(value)).append("* ").append(key).append(", ")
         );
-        return org.apache.commons.lang3.StringUtils.removeEnd(collections.toString().trim(),",");
+        return StringUtils.removeEnd(collections.toString().trim(),",");
     }
 }

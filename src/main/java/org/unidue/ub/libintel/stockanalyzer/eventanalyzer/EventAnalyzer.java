@@ -4,12 +4,12 @@ import org.apache.commons.math3.stat.regression.SimpleRegression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.unidue.ub.libintel.stockanalyzer.model.data.Eventanalysis;
+import org.unidue.ub.libintel.stockanalyzer.model.media.Event;
 import org.unidue.ub.libintel.stockanalyzer.model.settings.ItemGroup;
 import org.unidue.ub.libintel.stockanalyzer.model.settings.Stockcontrol;
 import org.unidue.ub.libintel.stockanalyzer.model.settings.UserGroup;
 import org.unidue.ub.libintel.stockanalyzer.settingsrepositories.ItemGroupRepository;
 import org.unidue.ub.libintel.stockanalyzer.settingsrepositories.UserGroupRepository;
-import unidue.ub.media.monographs.Event;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

@@ -15,9 +15,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.unidue.ub.libintel.stockanalyzer.DataWriter;
 import org.unidue.ub.libintel.stockanalyzer.model.data.Eventanalysis;
+import org.unidue.ub.libintel.stockanalyzer.model.media.Expression;
+import org.unidue.ub.libintel.stockanalyzer.model.media.Manifestation;
 import org.unidue.ub.libintel.stockanalyzer.model.settings.Status;
-import unidue.ub.media.monographs.Expression;
-import unidue.ub.media.monographs.Manifestation;
 
 
 @Configuration

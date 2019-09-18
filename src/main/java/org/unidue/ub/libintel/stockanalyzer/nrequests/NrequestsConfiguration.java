@@ -9,9 +9,9 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import unidue.ub.media.monographs.Manifestation;
 import org.unidue.ub.libintel.stockanalyzer.DataWriter;
 import org.unidue.ub.libintel.stockanalyzer.model.data.Nrequests;
+import org.unidue.ub.libintel.stockanalyzer.model.media.Manifestation;
 
 @Configuration
 public class NrequestsConfiguration {

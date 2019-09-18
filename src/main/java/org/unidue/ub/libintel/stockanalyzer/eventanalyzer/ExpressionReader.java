@@ -7,8 +7,8 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
-import unidue.ub.media.monographs.Expression;
-import unidue.ub.media.monographs.Manifestation;
+import org.unidue.ub.libintel.stockanalyzer.model.media.Expression;
+import org.unidue.ub.libintel.stockanalyzer.model.media.Manifestation;
 import org.unidue.ub.libintel.stockanalyzer.model.settings.Stockcontrol;
 
 import java.util.Enumeration;
